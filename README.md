@@ -1,6 +1,4 @@
-sp - Symfony console commands Prompt
-
-===
+# sp - Symfony console commands Prompt
 
 Interactive input assist tool for Symfony console command.
 
@@ -12,7 +10,7 @@ Interactive input assist tool for Symfony console command.
 sp
 ```
 
-NOTICE: If you do not register commands you need to do it first.
+**NOTICE: If you do not register commands you need to do it first.**
 
 ### Register command
 
