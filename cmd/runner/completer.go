@@ -40,13 +40,13 @@ func Completer(d prompt.Document) []prompt.Suggest {
 
 func getCommandSuggests() []prompt.Suggest {
 	if suggestsCache == nil {
-		for id, cmd := range s.CommandMap {
+		for id := range s.CommandMap {
 			text := id
-			suggestsCache = append(suggestsCache, prompt.Suggest{Text: text, Description: cmd.Description})
+			suggestsCache = append(suggestsCache, prompt.Suggest{Text: text})
 		}
-		suggestsCache = append(suggestsCache, prompt.Suggest{Text: cmdQuit, Description: "exit prompt."})
-		suggestsCache = append(suggestsCache, prompt.Suggest{Text: cmdExit, Description: "exit prompt."})
-		suggestsCache = append(suggestsCache, prompt.Suggest{Text: cmdClearCache, Description: "clear cache."})
+		suggestsCache = append(suggestsCache, prompt.Suggest{Text: cmdQuit})
+		suggestsCache = append(suggestsCache, prompt.Suggest{Text: cmdExit})
+		suggestsCache = append(suggestsCache, prompt.Suggest{Text: cmdClearCache})
 	}
 
 	return suggestsCache
