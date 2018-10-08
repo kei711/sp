@@ -52,7 +52,7 @@ func printUsage() {
 
 func DeleteCache(command string) {
 	cachePath := getCachePath(command)
-	if !util.FileExists(cachePath) {
+	if util.FileExists(cachePath) {
 		os.Remove(cachePath)
 	}
 }
