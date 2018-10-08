@@ -1,6 +1,6 @@
 # sp - Symfony console commands Prompt
 
-Interactive input assist tool for Symfony console command.
+Input assist tool for Symfony console commands.
 
 ## Usage
 
