@@ -17,9 +17,9 @@ package cmd
 import (
 	"fmt"
 	"github.com/c-bata/go-prompt"
-	"github.com/kei711/symfony-console-commands-prompt/cmd/runner"
-	"github.com/kei711/symfony-console-commands-prompt/config"
-	"github.com/kei711/symfony-console-commands-prompt/util"
+	"github.com/kei711/sp/cmd/runner"
+	"github.com/kei711/sp/config"
+	"github.com/kei711/sp/util"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
@@ -29,7 +29,7 @@ var cfgFile string
 var verbose bool
 
 var rootCmd = &cobra.Command{
-	Use: "symfony-console-commands-prompt",
+	Use: "sp",
 	Run: func(cmd *cobra.Command, args []string) {
 		selectedCommand := selectCommandPrompt()
 		if selectedCommand == "" {

@@ -14,7 +14,7 @@
 
 package main
 
-import "github.com/kei711/symfony-console-commands-prompt/cmd"
+import "github.com/kei711/sp/cmd"
 
 func main() {
 	cmd.Execute()

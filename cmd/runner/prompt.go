@@ -5,9 +5,9 @@ import (
 	"encoding/hex"
 	"fmt"
 	"github.com/c-bata/go-prompt"
-	"github.com/kei711/symfony-console-commands-prompt/cmd/runner/symfony"
-	"github.com/kei711/symfony-console-commands-prompt/config"
-	"github.com/kei711/symfony-console-commands-prompt/util"
+	"github.com/kei711/sp/cmd/runner/symfony"
+	"github.com/kei711/sp/config"
+	"github.com/kei711/sp/util"
 	"os"
 	"os/exec"
 )

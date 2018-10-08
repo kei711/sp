@@ -15,7 +15,7 @@
 package cmd
 
 import (
-	"github.com/kei711/symfony-console-commands-prompt/util"
+	"github.com/kei711/sp/util"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"path/filepath"

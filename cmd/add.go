@@ -18,7 +18,7 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/c-bata/go-prompt"
-	"github.com/kei711/symfony-console-commands-prompt/util"
+	"github.com/kei711/sp/util"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"io/ioutil"

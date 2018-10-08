@@ -2,7 +2,7 @@ package runner
 
 import (
 	"fmt"
-	"github.com/kei711/symfony-console-commands-prompt/util"
+	"github.com/kei711/sp/util"
 	"os"
 	"strings"
 
