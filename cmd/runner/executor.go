@@ -27,7 +27,7 @@ func Executor(in string) {
 		os.Exit(0)
 		break
 	case in == cmdClearCache:
-		os.Remove(getCachePath())
+		DeleteCache(selectedCommand)
 		saveCommandXML()
 		reloadSymfonyXML()
 		break

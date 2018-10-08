@@ -16,6 +16,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/kei711/sp/cmd/runner"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
@@ -43,6 +44,8 @@ var removeCmd = &cobra.Command{
 		viper.Set("commands", after)
 
 		viper.WriteConfig()
+
+		runner.DeleteCache(selectedCommand)
 
 		if isMatched {
 			fmt.Println("command delete. " + selectedCommand)

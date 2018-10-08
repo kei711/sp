@@ -50,7 +50,14 @@ func printUsage() {
 	fmt.Printf("  %-17s: Regenerate Command Cache.\n", cmdClearCache)
 }
 
-func getCachePath() string {
+func DeleteCache(command string) {
+	cachePath := getCachePath(command)
+	if !util.FileExists(cachePath) {
+		os.Remove(cachePath)
+	}
+}
+
+func getCachePath(command string) string {
 	if outputPath != "" {
 		return outputPath
 	}
@@ -58,7 +65,7 @@ func getCachePath() string {
 	cacheDir := config.GetCacheDir()
 
 	d := md5.New()
-	d.Write([]byte(selectedCommand))
+	d.Write([]byte(command))
 	hash := hex.EncodeToString(d.Sum(nil))
 
 	outputPath = cacheDir + "/" + hash + ".xml"
@@ -67,7 +74,7 @@ func getCachePath() string {
 }
 
 func loadSymfonyXML() {
-	s = symfony.NewSymfony(getCachePath())
+	s = symfony.NewSymfony(getCachePath(selectedCommand))
 }
 
 func reloadSymfonyXML() {
@@ -86,14 +93,14 @@ func saveCommandXML() {
 		os.Mkdir(cacheDir, 0755)
 	}
 
-	if !util.FileExists(getCachePath()) {
+	if !util.FileExists(getCachePath(selectedCommand)) {
 		cmd := exec.Command("php", selectedCommand, "list", "--format=xml")
 		out, err := cmd.Output()
 		if err != nil {
 			panic(err)
 		}
 
-		file, err := os.OpenFile(getCachePath(), os.O_WRONLY|os.O_CREATE, 0666)
+		file, err := os.OpenFile(getCachePath(selectedCommand), os.O_WRONLY|os.O_CREATE, 0666)
 		if err != nil {
 			panic(err)
 		}
