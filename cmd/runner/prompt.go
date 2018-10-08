@@ -37,6 +37,10 @@ func Run(c string, v bool) {
 		Executor,
 		Completer,
 		prompt.OptionPrefix(">>> "),
+		prompt.OptionSelectedDescriptionBGColor(prompt.LightGray),
+		prompt.OptionSelectedSuggestionBGColor(prompt.LightGray),
+		prompt.OptionSelectedDescriptionTextColor(prompt.DarkGray),
+		prompt.OptionSelectedSuggestionTextColor(prompt.DarkGray),
 	)
 	p.Run()
 }

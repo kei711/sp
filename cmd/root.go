@@ -33,7 +33,12 @@ var rootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		selectedCommand := prompt.Input(">>> ", Completer,
 			prompt.OptionTitle("choose command"),
-			prompt.OptionPrefixTextColor(prompt.Blue))
+			prompt.OptionPrefixTextColor(prompt.Blue),
+			prompt.OptionSelectedDescriptionBGColor(prompt.LightGray),
+			prompt.OptionSelectedSuggestionBGColor(prompt.LightGray),
+			prompt.OptionSelectedDescriptionTextColor(prompt.DarkGray),
+			prompt.OptionSelectedSuggestionTextColor(prompt.DarkGray),
+		)
 		if selectedCommand == "" {
 			os.Exit(0)
 		}
