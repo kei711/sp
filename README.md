@@ -15,7 +15,7 @@ $ go get github.com/kei711/sp
 ### Execute command
 
 ```bash
-# sp
+$ sp
 ```
 
 **NOTICE: If you have not registered command, you need to register first.**
@@ -37,11 +37,11 @@ $ sp remove
 default: `~/.sp`
 
 ```bash
-sp setCacheDir -c ~/.symfony-command-cache
+$ sp setCacheDir -c ~/.symfony-command-cache
 ```
 
 ### Show version
 
 ```bash
-sp version
+$ sp version
 ```
