@@ -31,14 +31,7 @@ var verbose bool
 var rootCmd = &cobra.Command{
 	Use: "symfony-console-commands-prompt",
 	Run: func(cmd *cobra.Command, args []string) {
-		selectedCommand := prompt.Input(">>> ", Completer,
-			prompt.OptionTitle("choose command"),
-			prompt.OptionPrefixTextColor(prompt.Blue),
-			prompt.OptionSelectedDescriptionBGColor(prompt.LightGray),
-			prompt.OptionSelectedSuggestionBGColor(prompt.LightGray),
-			prompt.OptionSelectedDescriptionTextColor(prompt.DarkGray),
-			prompt.OptionSelectedSuggestionTextColor(prompt.DarkGray),
-		)
+		selectedCommand := selectCommandPrompt()
 		if selectedCommand == "" {
 			os.Exit(0)
 		}
@@ -83,7 +76,20 @@ func initConfig() {
 	}
 }
 
-func Completer(d prompt.Document) []prompt.Suggest {
+func selectCommandPrompt() string {
+	selectedCommand := prompt.Input(">>> ", commandsCompleter,
+		prompt.OptionTitle("choose command"),
+		prompt.OptionPrefixTextColor(prompt.Blue),
+		prompt.OptionSelectedDescriptionBGColor(prompt.LightGray),
+		prompt.OptionSelectedSuggestionBGColor(prompt.LightGray),
+		prompt.OptionSelectedDescriptionTextColor(prompt.DarkGray),
+		prompt.OptionSelectedSuggestionTextColor(prompt.DarkGray),
+	)
+
+	return selectedCommand
+}
+
+func commandsCompleter(d prompt.Document) []prompt.Suggest {
 	var commandSuggest []prompt.Suggest
 	for _, command := range config.GetCommands() {
 		commandSuggest = append(commandSuggest, prompt.Suggest{Text: command})
