@@ -15,11 +15,16 @@
 package cmd
 
 import (
+	"bufio"
 	"fmt"
+	"github.com/c-bata/go-prompt"
 	"github.com/kei711/symfony-console-commands-prompt/util"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"io/ioutil"
+	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 )
 
@@ -29,12 +34,35 @@ var commandPath string
 var addCmd = &cobra.Command{
 	Use: "add",
 	Run: func(cmd *cobra.Command, args []string) {
-		commandPath = strings.Replace(commandPath, "~", util.GetHomeDir(), 1)
-		commandPath, _ := filepath.Abs(commandPath)
+		selectedCommand := prompt.Input(">>> ",
+			func(d prompt.Document) []prompt.Suggest {
+				var commandSuggest []prompt.Suggest
+				files, err := ioutil.ReadDir("./")
+				if err != nil {
+					panic(err)
+				}
 
-		if !util.FileExists(commandPath) {
-			fmt.Println("command not found.")
-			return
+				for _, file := range files {
+					commandSuggest = append(commandSuggest, prompt.Suggest{Text: file.Name()})
+				}
+				return util.FilterFuzzy(commandSuggest, d.GetWordBeforeCursor())
+			},
+			prompt.OptionTitle("choose command"),
+			prompt.OptionPrefixTextColor(prompt.Blue),
+			prompt.OptionSelectedDescriptionBGColor(prompt.LightGray),
+			prompt.OptionSelectedSuggestionBGColor(prompt.LightGray),
+			prompt.OptionSelectedDescriptionTextColor(prompt.DarkGray),
+			prompt.OptionSelectedSuggestionTextColor(prompt.DarkGray),
+		)
+
+		if selectedCommand == "" {
+			os.Exit(0)
+		}
+
+		path := strings.Replace(selectedCommand, "~", util.GetHomeDir(), 1)
+		commandPath, _ := filepath.Abs(path)
+		if !validateCommand(commandPath) {
+			os.Exit(1)
 		}
 
 		commands := viper.GetStringSlice("commands")
@@ -49,6 +77,37 @@ var addCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(addCmd)
+}
 
-	addCmd.Flags().StringVarP(&commandPath, "command", "c", "", "command path")
+func validateCommand(commandPath string) bool {
+	if !util.FileExists(commandPath) {
+		fmt.Println("command not found.")
+		return false
+	}
+
+	fp, err := os.Open(commandPath)
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
+	defer fp.Close()
+
+	// validating shebang
+	scanner := bufio.NewScanner(fp)
+	for scanner.Scan() {
+		firstLine := scanner.Text()
+		r := regexp.MustCompile(`^#!.*\s+php`)
+		if !r.MatchString(firstLine) {
+			fmt.Println("command is not PHP file.")
+			return false
+		}
+		break
+	}
+
+	if err = scanner.Err(); err != nil {
+		fmt.Println(err)
+		return false
+	}
+
+	return true
 }
