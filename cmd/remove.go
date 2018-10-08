@@ -32,8 +32,10 @@ var removeCmd = &cobra.Command{
 
 		commands := viper.GetStringSlice("commands")
 		var after []string
+		isMatched := false
 		for _, v := range commands {
 			if v == selectedCommand {
+				isMatched = true
 				continue
 			}
 			after = append(after, v)
@@ -42,7 +44,9 @@ var removeCmd = &cobra.Command{
 
 		viper.WriteConfig()
 
-		fmt.Println("command delete. " + selectedCommand)
+		if isMatched {
+			fmt.Println("command delete. " + selectedCommand)
+		}
 	},
 }
 
