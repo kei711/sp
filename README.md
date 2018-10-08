@@ -1,5 +1,4 @@
 # sp - Symfony console commands Prompt
-=======
 
 ## Description
 
