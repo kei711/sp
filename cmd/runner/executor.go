@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"syscall"
 	"time"
@@ -61,6 +62,16 @@ func execCommand(inputCommands []string) {
 }
 
 func runCommand(commands []string) (stdout, stderr string, exitCode int, err error) {
+	prev, err := filepath.Abs(".")
+	if err != nil {
+		return
+	}
+	defer os.Chdir(prev)
+
+	// change work directory
+	workDir := filepath.Dir(selectedCommand)
+	os.Chdir(workDir)
+
 	args := append([]string{selectedCommand}, commands...)
 	args = append(args, "--ansi")
 	cmd := exec.Command("php", args...)
