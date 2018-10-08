@@ -28,8 +28,6 @@ import (
 	"strings"
 )
 
-var commandPath string
-
 // addCmd represents the add command
 var addCmd = &cobra.Command{
 	Use: "add",
