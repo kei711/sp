@@ -67,7 +67,10 @@ var addCmd = &cobra.Command{
 		commands = append(commands, commandPath)
 		viper.Set("commands", commands)
 
-		viper.WriteConfig()
+		if err := viper.WriteConfig(); err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 
 		fmt.Println("command added. " + commandPath)
 	},

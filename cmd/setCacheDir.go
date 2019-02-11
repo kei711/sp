@@ -15,9 +15,11 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/kei711/sp/util"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"os"
 	"path/filepath"
 	"strings"
 )
@@ -30,7 +32,10 @@ var setCacheDirCmd = &cobra.Command{
 		dir, _ := filepath.Abs(cacheDir)
 
 		viper.Set("CacheDir", dir)
-		viper.WriteConfig()
+		if err := viper.WriteConfig(); err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 	},
 }
 

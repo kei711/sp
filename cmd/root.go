@@ -70,7 +70,10 @@ func initConfig() {
 	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err != nil {
-		viper.WriteConfig()
+		if err := viper.WriteConfig(); err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 	} else if verbose {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}

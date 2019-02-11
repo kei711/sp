@@ -43,7 +43,10 @@ var removeCmd = &cobra.Command{
 		}
 		viper.Set("commands", after)
 
-		viper.WriteConfig()
+		if err := viper.WriteConfig(); err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 
 		runner.DeleteCache(selectedCommand)
 
