@@ -21,21 +21,26 @@ import (
 	"github.com/kei711/sp/config"
 	"github.com/kei711/sp/util"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 	"os"
 )
 
-var cfgFile string
-var verbose bool
+var flags = new(config.Flags)
 
 var rootCmd = &cobra.Command{
 	Use: "sp",
 	Run: func(cmd *cobra.Command, args []string) {
+		if ! config.HasCommands() {
+			fmt.Println("Commands not exists.\n",
+				"Firstly, you should need a command registration.\n",
+				"Change current dir, and run `sp add` to choose it.")
+			os.Exit(1)
+		}
+
 		selectedCommand := selectCommandPrompt()
 		if selectedCommand == "" {
 			os.Exit(0)
 		}
-		runner.Run(selectedCommand, verbose)
+		runner.Run(selectedCommand, flags.Verbose)
 	},
 }
 
@@ -49,34 +54,15 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.sp.yaml)")
-	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "verbose output")
+	rootCmd.PersistentFlags().StringVar(&flags.ConfigPath,
+		"config", "",
+		"Specify configuration file. (default: $HOME/.sp.yaml)")
+	rootCmd.PersistentFlags().BoolVarP(&flags.Verbose,
+		"verbose", "v", false, "Show Verbose output")
 }
 
 func initConfig() {
-	config.Init()
-
-	if cfgFile != "" {
-		viper.SetConfigFile(cfgFile)
-	} else {
-		home := util.GetHomeDir()
-
-		viper.AddConfigPath(home)
-		viper.SetConfigName(".sp")
-
-		viper.SetConfigFile(home + "/" + ".sp.yaml")
-	}
-
-	viper.AutomaticEnv()
-
-	if err := viper.ReadInConfig(); err != nil {
-		if err := viper.WriteConfig(); err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-	} else if verbose {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
-	}
+	config.Init(flags)
 }
 
 func selectCommandPrompt() string {

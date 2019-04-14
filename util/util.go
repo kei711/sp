@@ -3,8 +3,8 @@ package util
 import (
 	"fmt"
 	"github.com/c-bata/go-prompt"
-	"github.com/mitchellh/go-homedir"
 	"github.com/lithammer/fuzzysearch/fuzzy"
+	"github.com/mitchellh/go-homedir"
 	"os"
 	"sort"
 )
@@ -58,7 +58,7 @@ func FilterFuzzy(completions []prompt.Suggest, sub string) []prompt.Suggest {
 	ret := make([]prompt.Suggest, 0, len(matches))
 	for _, v := range matches {
 		ret = append(ret, prompt.Suggest{
-			Text: v.Target,
+			Text:        v.Target,
 			Description: descMap[v.Target],
 		})
 	}
