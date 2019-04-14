@@ -48,8 +48,8 @@ func readXML(path string) []byte {
 	return xmlBytes
 }
 
-func parseSymfonyXML(xmlBytes []byte) *SymfonyXML {
-	data := new(SymfonyXML)
+func parseSymfonyXML(xmlBytes []byte) *SymfonyXml {
+	data := new(SymfonyXml)
 	if err := xml.Unmarshal(xmlBytes, data); err != nil {
 		panic(err)
 	}

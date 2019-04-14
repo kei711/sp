@@ -1,6 +1,6 @@
 package symfony
 
-type SymfonyXML struct {
+type SymfonyXml struct {
 	Commands Commands `xml:"commands"`
 }
 
